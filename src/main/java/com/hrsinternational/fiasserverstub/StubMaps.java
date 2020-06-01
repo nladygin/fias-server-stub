@@ -29,9 +29,9 @@ public class StubMaps extends LinkedList<StubRecord> {
                 try {
                     StubRecord map = new StubRecord(request, response);
                         this.add(map);
-                    LogManager.getLogger().info(request + " => " + response + " [OK]");
+                    LogManager.getLogger().info("[OK] " + request + " => " + response);
                 } catch (PatternSyntaxException pe) {
-                    LogManager.getLogger().error(request + " => " + response + " [ERROR]");
+                    LogManager.getLogger().error("[ERROR] " + request + " => " + response);
                 }
             }
         } catch (IOException e) {

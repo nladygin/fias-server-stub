@@ -11,7 +11,11 @@ public class Request {
         while(it.hasNext()){
             StubRecord stubRecord = it.next();
             if (request.matches(stubRecord.getRequest().pattern())) {
-                return stubRecord.getResponse();
+                if (stubRecord.getResponse().equals("~IGNORE~")) {
+                    return Constants.REQUEST_IGNORED;
+                } else {
+                    return stubRecord.getResponse();
+                }
             }
         }
         return Constants.REQUEST_NOT_MATCHED;

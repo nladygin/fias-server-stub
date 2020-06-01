@@ -26,9 +26,9 @@ public class Server {
     public void start() {
 
         try (ServerSocket serverSocket = new ServerSocket(port)) {
-            serverSocket.setSoTimeout(30000);
+//            serverSocket.setSoTimeout(30000);
 
-            LogManager.getLogger().info("Server is listening on port " + port);
+            LogManager.getLogger().info("Server is started on port " + port);
 
 
             Socket socket = serverSocket.accept();
@@ -41,8 +41,8 @@ public class Server {
 
 
             /* start hello */
-            socketProcessor.socketWriter(response.processingResponse("LS|DA~YYMMDD~|TI~HHMMSS~|"));
-            socketProcessor.socketWriter(response.processingResponse("LA|DA~YYMMDD~|TI~HHMMSS~|"));
+            socketProcessor.socketWriter(response.processingResponse("","LS|DA~YYMMDD~|TI~HHMMSS~|"));
+            socketProcessor.socketWriter(response.processingResponse("","LA|DA~YYMMDD~|TI~HHMMSS~|"));
 
 
 
@@ -53,10 +53,18 @@ public class Server {
 
                 matchedResponse = request.processingRequest(clientRequest, stubMaps);
                 if (! matchedResponse.equals(Constants.REQUEST_NOT_MATCHED)) {
-                    socketProcessor.socketWriter(response.processingResponse(matchedResponse));
-                } else if (matchedResponse.equals(Constants.REQUEST_IGNORED)) {
-                    LogManager.getLogger().info("<< [IGNORED] " + clientRequest);
-                } else {
+                    if (! matchedResponse.equals(Constants.REQUEST_IGNORED)) {
+                        socketProcessor.socketWriter(
+                                response.processingResponse(
+                                        clientRequest,
+                                        matchedResponse
+                                )
+                        );
+                    } else {
+                        LogManager.getLogger().info("<< [IGNORED] " + clientRequest);
+                    }
+                }
+                else {
                     LogManager.getLogger().info("Unrecognized request: " + clientRequest);
                 }
 

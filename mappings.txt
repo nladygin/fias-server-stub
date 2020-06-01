@@ -2,3 +2,4 @@
 ^LE\\|(.*) = LE|DA~YYMMDD~|TI~HHMMSS~|
 ^LD\\|(.*) = ~IGNORE~
 ^LR\\|(.*) = ~IGNORE~
+^PR\\|(.*) = PA|ASNG|P#~POSTING_SEQ~|WSentry2|CTGuest not found|
