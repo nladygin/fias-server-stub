@@ -10,7 +10,7 @@ public class Response {
 
     public String processingResponse(String rawResponse) {
         String response = rawResponse;
-        if (response.contains("~IGNORE~")) return "IGNORE";
+        if (response.contains("~IGNORE~")) return Constants.REQUEST_IGNORED;
 
         if (response.contains("~YYMMDD~")) {
             DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyMMdd");

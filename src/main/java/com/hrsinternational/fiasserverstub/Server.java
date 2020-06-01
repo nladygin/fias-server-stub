@@ -13,6 +13,7 @@ public class Server {
 
 
 
+
     public Server(Integer port, StubMaps stubMaps) {
         this.port = port;
         this.stubMaps = stubMaps;
@@ -23,7 +24,6 @@ public class Server {
 
 
     public void start() {
-
 
         try (ServerSocket serverSocket = new ServerSocket(port)) {
             serverSocket.setSoTimeout(30000);
@@ -52,107 +52,28 @@ public class Server {
                 clientRequest = socketProcessor.socketListener();
 
                 matchedResponse = request.processingRequest(clientRequest, stubMaps);
-                if (! matchedResponse.equals("NOT_MATCHED")) {
+                if (! matchedResponse.equals(Constants.REQUEST_NOT_MATCHED)) {
                     socketProcessor.socketWriter(response.processingResponse(matchedResponse));
-                } else if (matchedResponse.equals("IGNORE")) {
+                } else if (matchedResponse.equals(Constants.REQUEST_IGNORED)) {
                     LogManager.getLogger().info("<< [IGNORED] " + clientRequest);
                 } else {
-                        LogManager.getLogger().info("Unrecognized request: " + clientRequest);
+                    LogManager.getLogger().info("Unrecognized request: " + clientRequest);
                 }
 
-            } while (! request.equals("EXIT"));
-
+            } while (! request.equals(Constants.CONNECTION_CLOSED));
 
 
             socket.close();
             serverSocket.close();
             LogManager.getLogger().warn("Server stopped");
 
-
-
-
-/*
-            final byte STX = 0x02;
-            final byte ETX = 0x03;
-            final byte[] buffer = new byte[2000];
-            int recordLengthLimit = 2000;
-
-            InputStream inputStream = socket.getInputStream();
-            int lastRedValue;
-            int redDataLength = 0;
-            boolean dataStarted = false;
-            do {
-                lastRedValue = inputStream.read();
-                if (lastRedValue == -1) {
-                    socket.close();
-                    serverSocket.close();
-                    LogManager.getLogger().warn("Server stopped");
-                    System.exit(0);
-                } else if (lastRedValue == STX) {
-                    dataStarted = true;
-                } else if (lastRedValue == ETX) {
-                    byte[] result = new byte[redDataLength];
-                    System.arraycopy(buffer, 0, result, 0, redDataLength);
-                    LogManager.getLogger().info(">> " + new String(result));
-                    redDataLength = 0;
-                    dataStarted = false;
-                } else if (dataStarted) {
-                    buffer[redDataLength++] = (byte) lastRedValue;
-                }
-                if (redDataLength > recordLengthLimit) {
-                    LogManager.getLogger().warn("Long request");
-                }
-            } while (true);
-*/
-
-
-
-/*
-            BufferedReader input = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-//            DataInputStream input = new DataInputStream(socket.getInputStream());
-            PrintWriter output = new PrintWriter(socket.getOutputStream(), true);
-
-            Request request = new Request(input);
-            Response response = new Response(output);
-
-            response.processingResponse(new StubRecord("","LS|DA~YYMMDD~|TI~HHMMSS~|"));
-            response.processingResponse(new StubRecord("","LA|DA~YYMMDD~|TI~HHMMSS~|"));
-
-            String line;
-            while ((line = input.readLine()) != null) {
-                System.out.println(line);
-            }
-
-            while (true) {
-                StubRecord record = request.processingRequest(stubMaps);
-
-                if (record != null) {
-                    response.processingResponse(record);
-                } else {
-                    LogManager.getLogger().warn("Unrecognized request: " + request);
-                }
-
-            }
-*/
-
         } catch (IOException e) {
-            LogManager.getLogger().error("Server error");
+            LogManager.getLogger().error("Unexpected server error");
             LogManager.getLogger().error(e.getMessage());
             e.printStackTrace();
         }
 
     }
-
-
-
-
-
-
-
-
-
-
-
 
 
 

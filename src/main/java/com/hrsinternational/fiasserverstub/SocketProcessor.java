@@ -31,7 +31,7 @@ public class SocketProcessor {
         do {
             lastRedValue = inputStream.read();
             if (lastRedValue == -1) {
-                return "EXIT";
+                return Constants.CONNECTION_CLOSED;
             } else if (lastRedValue == STX) {
                 dataStarted = true;
             } else if (lastRedValue == ETX) {
@@ -55,18 +55,12 @@ public class SocketProcessor {
     public void socketWriter(String response) throws IOException {
         byte[] record = response.getBytes();
         byte[] framedData = new byte[record.length + 2];
-        framedData[0] = STX;
-        System.arraycopy(record, 0, framedData, 1, record.length);
-        framedData[framedData.length - 1] = ETX;
-        OutputStream out = socket.getOutputStream();
-        out.write(framedData);
+            framedData[0] = STX;
+            System.arraycopy(record, 0, framedData, 1, record.length);
+            framedData[framedData.length - 1] = ETX;
+                OutputStream out = socket.getOutputStream();
+                out.write(framedData);
         LogManager.getLogger().info("<< " + response);
-
-/*
-        PrintWriter output = new PrintWriter(socket.getOutputStream(), true);
-        PrintWriter writer = new PrintWriter(output, true);
-        writer.println(STX + response + ETX);
-*/
     }
 
 
