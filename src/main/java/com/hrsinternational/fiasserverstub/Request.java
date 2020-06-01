@@ -13,62 +13,46 @@ public class Request {
 
 
 
+
+
+/*
     public String cleanUp(String request) {
+        System.out.println(request);
         return request.substring(1, request.length()-1);
     }
 
 
 
-    public void processingRequest(Socket socket, StubMaps stubMaps) throws IOException {
+
+    public StubRecord processingRequest(StubMaps stubMaps) throws IOException {
 //        ObjectInputStream input = new ObjectInputStream(socket.getInputStream());
+        String request = input.readLine();
+//        String request = input.readUTF();
+        LogManager.getLogger().info(">>>> " + request);
 
-            String request = cleanUp( new BufferedReader(new InputStreamReader(socket.getInputStream())).readLine() );
-/*
-        String request = cleanUp(
-                new BufferedReader(
-                        new InputStreamReader(
-                                input,
-                                StandardCharsets.UTF_8)
-                )
-                        .lines()
-                        .collect(Collectors.joining())
-        );
-*/
-        LogManager.getLogger().info(">> " + request);
+        if (request != null) {
+            request = cleanUp(request);
 
-        StubRecord record = matchRequest(request, stubMaps);
+            LogManager.getLogger().info(">> " + request);
 
-        if (record != null) {
-            Response response = new Response(socket, record);
-                response.makeResponse();
+            return matchRequest(request, stubMaps);
         } else {
-            LogManager.getLogger().warn("Unrecognized request: " + request);
+            return null;
         }
-
     }
+*/
 
 
 
-
-    private StubRecord matchRequest(String request, StubMaps stubMaps) {
+    public String processingRequest(String request, StubMaps stubMaps) {
         Iterator<StubRecord> it = stubMaps.iterator();
         while(it.hasNext()){
             StubRecord stubRecord = it.next();
             if (request.matches(stubRecord.getRequest().pattern())) {
-                return stubRecord;
+                return stubRecord.getResponse();
             }
-/*
-            if (stubRecord
-                    .getRequest()
-                    .matcher(request)
-                    .find()
-            ) {
-//                LogManager.getLogger().info("Matched: " + request + " ~ " + stubRecord.getResponse());
-                return stubRecord;
-            }
-*/
         }
-        return null;
+        return "NOT_MATCHED";
     }
 
 

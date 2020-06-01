@@ -1,3 +1,4 @@
-^LS\\|(.*) = LD|DA~YYMMDD~|TI~HHMMSS~|V#1.01|IFWW|
 ^LA\\|(.*) = LA|DA~YYMMDD~|TI~HHMMSS~|
 ^LE\\|(.*) = LE|DA~YYMMDD~|TI~HHMMSS~|
+^LD\\|(.*) = ~IGNORE~
+^LR\\|(.*) = ~IGNORE~
