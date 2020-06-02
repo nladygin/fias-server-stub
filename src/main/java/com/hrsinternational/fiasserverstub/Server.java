@@ -74,6 +74,7 @@ public class Server {
             socket.close();
             serverSocket.close();
             LogManager.getLogger().warn("Server stopped");
+            System.exit(0);
 
         } catch (IOException e) {
             LogManager.getLogger().error("Unexpected server error");
