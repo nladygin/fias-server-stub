@@ -2,4 +2,5 @@
 ^LE\\|(.*) = LE|DA~YYMMDD~|TI~HHMMSS~|
 ^LD\\|(.*) = ~IGNORE~
 ^LR\\|(.*) = ~IGNORE~
-^PR\\|(.*) = PA|ASNG|P#~POSTING_SEQ~|WSentry2|CTGuest not found|
+^PR\\|PI1001\\|PMROOM\\|(.*) = PA|ASNG|P#~POSTING_SEQ~|WSentry2|CTGuest not found|
+^PR\\|PI1002\\|PMROOM\\|(.*) = PL|P#~POSTING_SEQ~|WSentry2|RN1002|G#551128|GNIvan, Ivanov |A0 |A1070220|A30|
