@@ -35,7 +35,7 @@ public class StubMaps extends LinkedList<StubRecord> {
                 }
             }
         } catch (IOException e) {
-            LogManager.getLogger().error("Error when stub maps loading");
+            LogManager.getLogger().error("Error loading stub maps");
         }
     }
 
